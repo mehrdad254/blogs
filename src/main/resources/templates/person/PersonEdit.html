@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>مدیریت افراد</title>
+    <div th:replace="fragment/pageHead::head"></div>
+</head>
+<body>
+<div th:replace="fragment/pageHead::navbar"></div>
+
+<div class="text-center">
+    <!--            <img th:src="@{/images/user.png}" height="110px">-->
+<!--    <h1 class="display-4 py-2 text-truncate">فرم ثبت نام</h1>-->
+</div>
+
+<div class="container-fluid card border border-secondary text-right col-6 mt-3" dir="rtl">
+    <form action="#" th:action="@{/person/register}"
+          th:object="${person}" method="post" enctype="multipart/form-data">
+
+        <div class="form-group mt-1">
+            <input type="checkbox" checked th:field="*{enabled}" data-toggle="toggle" data-on="موثر"
+                   data-off="بی اثر" data-size="mini" data-onstyle="success" data-offstyle="danger">
+        </div>
+
+        <input type="hidden" th:field="*{id}" name="id">
+
+        <div class="form-group row mt-2">
+
+
+            <div class="col-sm-6">
+                <label>نام</label>
+                <input type="text"  class="form-control validate" th:field="*{firstName}">
+            </div>
+
+            <div class="col-sm-6">
+                <label>فامیل</label>
+                <input th:field="*{lastName}"  type="text"
+                       class="form-control validate">
+            </div>
+
+            <div class="col-sm-6">
+                <label>موبایل</label>
+                <input th:field="*{mobileNumber}" type="text"
+                       class="form-control validate">
+            </div>
+
+
+            <div class="col-sm-6">
+                <label>عکس</label>
+                <input type="file" th:field="*{file}" placeholder="Picture">
+            </div>
+
+
+            <div class="col-sm-6">
+                <label>ایمیل</label>
+                <input th:field="*{email}" type="email"
+                       class="form-control validate">
+            </div>
+
+            <div class="col-sm-6">
+                <label>رمز</label>
+                <input th:field="*{password}" type="password"
+                       class="form-control validate">
+            </div>
+
+            </div>
+
+
+
+        <div class="form-group" dir="rtl">
+            <label class="float-lg-right" >آدرس</label>
+            <textarea th:field="*{address}" class="form-control"
+            ></textarea>
+        </div>
+
+        <div class="form-group">
+            <select class="form-control" th:field="*{roles}">
+                <option th:each="role : ${T(com.example.demo.enums.Roles).values()}" th:text="${role}" th:value="${role}"></option>
+            </select>
+        </div>
+
+        <div class="form-group text-center">
+            <button type="reset" class="btn btn-warning">خروج</button>
+            <button type="submit" class="btn btn-primary">ذخیره</button>
+        </div>
+
+    </form>
+</div>
+
+</body>
+</html>

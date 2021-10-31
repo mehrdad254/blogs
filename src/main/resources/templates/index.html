@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="persian" xmlns:th="http://www.thymeleaf.org">
+<head>
+<!--    <meta charset="UTF-8">-->
+    <title>Home</title>
+    <meta http-equiv="Content-Type" content="text/html; <=UTF-8" />
+    <div th:replace="fragment/pageHead::head"></div>
+    <!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">-->
+<!--    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>-->
+<!--    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>-->
+</head>
+<body>
+<header>
+    <div th:replace="fragment/pageHead::navbar"></div>
+
+
+    <div >
+        <img th:src="@{images/background7.jpg}" class="img w-100" height="450px" alt="">
+    </div>
+
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4 text-right">جاوا</h1>
+            <p class="lead text-right">با جاوا چه اپلیکیشن هایی میشه نوشت ؟</p>
+        </div>
+
+
+        <div class="card-deck container-fluid">
+            <div class="card bg-dark">
+                <img th:src="@{images/Spring.jpg}" height="230"  class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title text-center text-white">وب</h5>
+                    <!-- <p class="card-text text-right">وب هایی که با اسپرینگ بوت نوشته میشن جزو بهترین و امن ترین وب ها هستن</p> -->
+                </div>
+            </div>
+            <div class="card bg-dark">
+                <img th:src="@{images/Android.jpeg}" height="230" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title text-center text-white">اندروید</h5>
+                    <!-- <p class="card-text text-right">زبان نیتیو اندروید جاوا و کاتلین  هستش </p> -->
+                </div>
+            </div>
+            <div class="card bg-dark">
+                <img th:src="@{images/JavaFX.png}" height="230"  class="card-img-top " alt="...">
+                <div class="card-body">
+                    <h5 class="card-title text-center text-white">دسکتاپ</h5>
+<!--                     <p class="card-text text-right">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>-->
+                </div>
+            </div>
+        </div>
+        <hr>
+        <br>
+        <div class="d-flex justify-content-center">
+            <button id="singlebutton" name="singlebutton" class="btn btn-outline-success">
+                اگه دوس داری سفارش برنامه بدی کلیک کن
+            </button>
+        </div>
+    </div>
+</header>
+
+<!--  search start-->
+<form id="searchForm" th:action="@{/}" method="get">
+<div class="d-flex justify-content-center py-2">
+
+    <input type="text" class="form-control col-md-3 mx-3 bg-dark text-white text-center"
+                                      th:value="${p.title}" id="title" name="title"
+                                      placeholder="جستجو بر اساس عنوان">
+
+        <select class="selectpicker form-control col-md-3 mx-3"  name="category" id="category" title="جستجو بر اساس دسته ها"   multiple>
+            <option th:each="category : ${categorys}"
+                    th:selected="${p?.category?.contains(category)}"
+                    th:value="${category.id}"
+                    th:text="${category.title}">
+            </option>
+        </select>
+
+        <button class="form-control col-md-2 mx-3 text-white bg-dark" type="submit" >
+                جستجو
+        </button>
+</div>
+</form>
+<!-- search end-->
+
+<!--Posts start--><!--  -->
+<div class="card text-white bg-dark my-3 mx-3" style="max-width: 100rem;" th:each="post : ${posts}" dir="rtl">
+    <div class="text-white mb-1 mx-1"  >
+        <div class="card-header text-center" th:text="${post.title}"></div>
+        <div class="card-body text-center">
+            <h5 class="card-title" ></h5>
+            <a class="text-white" th:href="@{/post/showPost/{id}(id=${post.getId()})}" >
+            <span class="card-text d-inline-block text-truncate" style="max-width: 250px;" th:text="${post.subject}">
+            </span>
+            </a>
+        </div>
+            <div class="card-footer">
+        <small class="row text-muted text-right">
+            <div class="col text-center">
+                <img th:src="@{/images/human1.png}" height="22" width="23" class="rounded mx-auto d-block" >
+                <p class="text-white text-center" th:text="'نویسنده : '+${post.person.firstName}"></p>
+            </div>
+<!--             <div class="col card bg-dark text-center">
+                <img th:src="@{/images/calander.png}" height="22" width="23" class="rounded mx-auto d-block">
+                <p class="text-white" th:text="'تاریخ ثبت : '+${post.createDate}"></p>
+            </div>
+            <div class="col card bg-dark text-center">
+                <img th:src="@{/images/time1.png}" height="22" width="23" class="rounded mx-auto d-block" >
+                <p class="text-white" th:text="'ساعت ثبت : '+${post.createTime}"></p>
+            </div> -->
+            <div class="col text-center">
+                <img th:src="@{/images/calander.png}" height="22" width="23" class="rounded mx-auto d-block">
+                <p class="text-white" th:text="'تاریخ بروزرسانی : '+${post.updateDate}"></p>
+            </div>
+            <div class="col text-center">
+                <img th:src="@{/images/time1.png}" height="22" width="23" class="rounded mx-auto d-block" >
+                <p class="text-white" th:text="'ساعت بروزرسانی : '+${post.updateTime}"></p>
+            </div>
+<!--             <div class="col card bg-dark">
+                <img th:src="@{/images/coment1.png}" height="22" width="23" class="rounded mx-auto d-block">
+                <p class="text-white text-center" th:text="'مجموع نظرات : '+${post.id}"></p>
+            </div> -->
+        </small>
+    </div>
+    <div class="d-flex">
+        <ul class="list-inline"  th:each="cat : ${post.category}">
+            <li class="card bg-danger list-inline-item mt-3 mx-1 justify-content-center"  th:text="${cat.title}"></li>
+        </ul>
+    </div>
+    </div>
+</div>
+<!--Post End-->
+
+<!--pagination start-->
+    <nav aria-label="Page navigation example bg-dark" >
+        <ul class="pagination justify-content-center container-fluid">
+            <li class="page-item" th:classappend="${posts.first} ? disabled">
+                <a class="page-link"
+                   th:href="@{/(page=${posts.number - 1})}" tabindex="-1">
+                    Previous
+                </a>
+            </li>
+
+            <li class="page-item"
+                th:classappend="(${posts.number == i} ? active) + ' ' + (${posts.isEmpty()} ? disabled)"
+                th:each="i : ${#numbers.sequence(0 , posts.totalPages -1)}">
+
+                <a class="page-link"
+
+                   th:with="url=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}"
+
+                   th:href="@{${url.replaceQueryParam('page').toUriString()}(page=${i})}">[[${i+1}]]</a>
+            </li>
+
+            <li class="page-item" th:classappend="${posts.last} ? disabled">
+                <a class="page-link"
+                   th:href="@{/(page=${posts.number + 1})}">Next</a>
+            </li>
+        </ul>
+    </nav>
+<!--pagination end-->
+
+<!-- Footer -->
+<div>
+<footer class="page-footer font-small blue bg-dark">
+
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-2 text-white">© 2019 Copyright :
+        <a href="https://mdbootstrap.com/education/bootstrap/"> JavaMhr</a>
+    </div>
+    <!-- Copyright -->
+
+</footer>
+</div>
+<!-- Footer -->
+
+</body>
+</html>

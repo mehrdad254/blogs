@@ -1,0 +1,29 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>ایجاد دسته بندی</title>
+	<div th:replace="fragment/pageHead::head"></div>
+</head>
+
+<body>
+<div th:replace="fragment/pageHead::navbar"></div>
+
+<div class="container-fluid border border-secondary col-4 mb-5 mt-3">
+
+		<form action="#" th:action="@{/category/register}" th:object="${category}" method="post"  >
+			<input type="hidden" th:field="*{id}">
+
+			<div class="container form-group col-10 mb-2 mt-3">
+				<label class="float-lg-right" for="exampleFormControlInput1">: دسته بندی </label>
+				<input class="form-control text-center" type="text" th:field="*{title}" placeholder="Category">
+			</div>
+
+			<div  class="container form-group col-2">
+				<input class="btn btn-primary" type="submit" value="ثبت">
+			</div>
+		</form>
+
+</div>
+</body>
+
+</html>

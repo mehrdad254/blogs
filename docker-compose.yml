@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+
+   db:
+      image: mariadb:10
+      restart: always
+      container_name: database_mariadb
+      ports:
+       - '3306:3306'
+      networks: 
+       - blog
+      environment:
+       MYSQL_ROOT_PASSWORD: ***
+       MYSQL_DATABASE: blog
+       MYSQL_USER: root
+       MYSQL_PASSWORD: ***
+   blog:
+      image: dockerize-springboot:1.0.0
+      restart: always
+      container_name: weblog_Springboot
+      ports: 
+       - 8081:8081
+      networks: 
+       - blog
+networks: 
+  blog:
+    external: true

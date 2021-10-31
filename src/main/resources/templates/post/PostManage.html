@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>لیست پست ها</title>
+    <div th:replace="fragment/pageHead::head"></div>
+</head>
+<body>
+<div th:replace="fragment/pageHead::navbar"></div>
+
+    <table class="table py-5 container-fluid" dir="rtl">
+        <thead class="thead-light">
+        <tr>
+            <th>عنوان</th>
+            <th>متن</th>
+            <th>تاریخ بروزرسانی</th>
+            <th>ساعت بروزرسانی</th>
+            <th>ویرایش</th>
+            <th>حذف</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="post : ${posts}" >
+            <td th:text="${post.title}"></td>
+            <td th:text="${post.subject}"></td>
+            <td th:text="${post.updateDate}"></td>
+            <td th:text="${post.updateTime}"></td>
+            <td><a th:href="@{/post/editPost/{id}(id=${post.getId()})}" ><img th:src="@{/images/edit2.ico}"> </a></td>
+            <td>
+
+                <a data-toggle="modal" th:data-target="'#delete'+${post.getId()}" href="#"><img
+                        th:src="@{/images/delete2.png}"></a>
+
+                <!-- Modal delete-->
+                <div class="modal fade" th:id="'delete'+${post.getId()}" tabindex="-1" role="dialog"
+                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h5 class="modal-title" >حذف پست</h5>
+                            </div>
+                            <div class="modal-body text-right"
+                                 th:text="'ایا میخواید پست ' + ${post.getTitle()} + ' حذف بشه ؟'">
+                            </div>
+                            <div class="modal-footer text-md-center justify-content-center">
+                                <button type="button" class="btn btn-secondary text-center mx-2"
+                                        data-dismiss="modal">لغو</button>
+                                <a class="btn btn-danger mx-2"
+                                   th:href="@{/post/deletPost/{id}(id=${post.getId()})}">حذف</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Modal delete -->
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+<!--pagination start-->
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center fixed-bottom mt-3 container-fluid">
+        <li class="page-item" th:classappend="${posts.first} ? disabled">
+            <a class="page-link"
+               th:href="@{/post/list(page=${posts.number - 1})}" tabindex="-1">
+                Previous
+            </a>
+        </li>
+
+        <li class="page-item"
+            th:classappend="${posts.number == i} ? active "
+            th:each="i : ${#numbers.sequence(0 , posts.totalPages -1)}">
+            <a class="page-link" th:href="@{/post/list(page=${i})}">[[${i+1}]]</a>
+        </li>
+
+        <li class="page-item" th:classappend="${posts.last} ? disabled">
+            <a class="page-link"
+               th:href="@{/post/list(page=${posts.number + 1})}">Next</a>
+        </li>
+    </ul>
+</nav>
+<!--pagination end-->
+
+
+
+</body>
+</html>

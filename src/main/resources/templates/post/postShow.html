@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${post.title}"></title>
+    <div th:replace="fragment/pageHead::head"></div>
+</head>
+<body>
+
+<div th:replace="fragment/pageHead::navbar"></div>
+
+<div class="card text-white text-center bg-dark mb-4 mt-4 mx-4" style="max-width: 100rem;" dir="rtl">
+  <div class="card-header" th:text="${post.getTitle()}"></div>
+  <div class="card-body">
+    <h5 class="card-title" ></h5>
+    <p class="card-text" th:text="${post.subject}"></p>
+  </div>
+
+    <div class="card-footer">
+        <small class="row text-muted text-right">
+            <div class="col card bg-dark">
+                <img th:src="@{/images/human1.png}" height="22" width="23" class="rounded mx-auto d-block" >
+                <p class="text-white" th:text="'نویسنده : '+${post.person.firstName}"></p>
+            </div>
+            <div class="col card bg-dark text-center">
+                <img th:src="@{/images/calander.png}" height="22" width="23" class="rounded mx-auto d-block">
+                <p class="text-white" th:text="'تاریخ ثبت : '+${post.createDate}"></p>
+            </div>
+            <div class="col card bg-dark text-center">
+                <img th:src="@{/images/time1.png}" height="22" width="23" class="rounded mx-auto d-block" >
+                <p class="text-white" th:text="'ساعت ثبت : '+${post.createTime}"></p>
+            </div>
+            <div class="col card bg-dark text-center">
+                <img th:src="@{/images/calander.png}" height="22" width="23" class="rounded mx-auto d-block">
+                <p class="text-white" th:text="'تاریخ بروزرسانی : '+${post.updateDate}"></p>
+            </div>
+            <div class="col card bg-dark text-center">
+                <img th:src="@{/images/time1.png}" height="22" width="23" class="rounded mx-auto d-block" >
+                <p class="text-white" th:text="'ساعت بروزرسانی : '+${post.updateTime}"></p>
+            </div>
+<!--             <div class="col card bg-dark">
+                <img th:src="@{/images/coment1.png}" height="22" width="23" class="rounded mx-auto d-block">
+                <p class="text-white text-center" th:text="'مجموع نظرات : '+${post.id}"></p>
+            </div> -->
+        </small>
+    </div>
+    <div class="d-flex">
+        <ul class="list-inline"  th:each="cat : ${post.category}">
+            <li class="card bg-danger list-inline-item mt-3 mx-1 justify-content-center"  th:text="${cat.title}"></li>
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>

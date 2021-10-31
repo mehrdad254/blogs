@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>مدیریت افراد</title>
+	<div th:replace="fragment/pageHead::head"></div>
+</head>
+
+<body>
+<div th:replace="fragment/pageHead::navbar"></div>
+
+<!--<div class="container text-right">-->
+<!--	<h3>لیست کاربران</h3>-->
+<!--	<a th:href="@{/person/register}"><img th:src="@{/images/icons8-add-48.png}"></a>-->
+<!--</div>-->
+
+
+
+
+	<table class="table table-hover container-fluid" dir="rtl">
+		<thead class="thead-light">
+		<tr>
+			<th scope="col">نام</th>
+			<th scope="col">فامیل</th>
+			<th scope="col">ایمیل</th>
+			<th scope="col">آدرس</th>
+			<th scope="col">موبایل</th>
+			<th scope="col">تاریخ</th>
+			<th scope="col">ساعت</th>
+			<th scope="col">ویرایش</th>
+			<th scope="col">حذف</th>
+			<th scope="col">وضعیت</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr th:each="person : ${persons}">
+			<td scope="row" th:text="${person.getFirstName()}">
+			<td th:text="${person.getLastName()}" >
+			<td th:text="${person.getEmail()}" >
+			<td th:text="${person.getAddress()}" >
+			<td th:text="${person.getMobileNumber()}" >
+			<td th:text="${person.getCreatDate()}">
+			<td th:text="${person.getCreateTime()}">
+			<td>
+			<a href="#" th:href="@{/person/edit/{id}(id=${person.getId()})}"><img
+					th:src="@{/images/edit2.ico}"></a>
+			</td>
+			<td>
+
+				<a data-toggle="modal" th:data-target="'#delete'+${person.getId()}" href="#"><img
+						th:src="@{/images/delete2.png}"></a>
+
+				<!-- Modal delete-->
+				<div class="modal fade" th:id="'delete'+${person.getId()}" tabindex="-1" role="dialog"
+					 aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<h5 class="modal-title text-left" >حذف کاربر</h5>
+							</div>
+							<div class="modal-body text-right"
+								 th:text="'ایا میخواید کاربر ' + ${person.getFirstName()} + ' ' + ${person.getLastName()}+' حذف بشه ؟'">
+							</div>
+							<div class="modal-footer text-md-center justify-content-center">
+								<button type="button" class="btn btn-secondary mx-2"
+										data-dismiss="modal">لغو</button>
+								<a class="btn btn-danger mx-2"
+								   th:href="@{/person/deleteUser/{id}(id=${person.getId()})}">حذف</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- End Modal delete -->
+
+			</td>
+			<td><input type="checkbox" checked th:checked="${person.enabled}" data-toggle="toggle" data-on="موثر"
+					   data-off="بی اثر" data-size="mini" data-onstyle="success" data-offstyle="danger"></td>
+		</tr>
+		</tbody>
+	</table>
+
+<!--pagination start-->
+<nav aria-label="Page navigation example">
+	<ul class="pagination justify-content-center fixed-bottom mt-3 container-fluid">
+		<li class="page-item" th:classappend="${persons.first} ? disabled">
+			<a class="page-link"
+			   th:href="@{/person/list(page=${persons.number - 1})}" tabindex="-1">
+				Previous
+			</a>
+		</li>
+
+		<li class="page-item"
+			th:classappend="${persons.number == i} ? active "
+			th:each="i : ${#numbers.sequence(0 , persons.totalPages -1)}">
+			<a class="page-link" th:href="@{/person/list(page=${i})}">[[${i+1}]]</a>
+		</li>
+
+		<li class="page-item" th:classappend="${persons.last} ? disabled">
+			<a class="page-link"
+			   th:href="@{/person/list(page=${persons.number + 1})}">Next</a>
+		</li>
+	</ul>
+</nav>
+<!--pagination end-->
+</body>
+</html>

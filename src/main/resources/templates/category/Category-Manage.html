@@ -1,0 +1,80 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>مدیریت دسته بندی ها</title>
+	<div th:replace="fragment/pageHead::head"></div></head>
+<body>
+<div th:replace="fragment/pageHead::navbar"></div>
+<!--		<h3>Category Directory </h3>-->
+<!--	<a th:href="@{/category/register}" ><img th:src="@{/images/icons8-add-48.png}"></a>-->
+<!--	-->
+	<table class="table table-striped">
+		<thead class="thead-light">
+			<tr>
+				<th>Title</th>
+				<th>Edit</th>
+				<th>Delete</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="category : ${categorys}">
+				<td th:text="${category.title}"></td>
+				<td><a th:href="@{/category/editCategory/{id}(id=${category.getId()})}"><img th:src="@{/images/edit2.ico}" ></a></td>
+				<td>
+					<a data-toggle="modal" th:data-target="'#delete'+${category.getId()}" href="#"><img th:src="@{/images/delete2.png}"></a>		
+					 
+					 <!-- Modal -->
+					<div class="modal fade" th:id="'delete'+${category.getId()}" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">حذف کاربر</h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body text-right" th:text="'ایا میخواید کاربر ' + ${category.title} + ' ' + ${category.title}+' حذف بشه ؟'"></div>
+								<div class="modal-footer ">
+									<button type="button" class="btn btn-secondary"
+										data-dismiss="modal">لغو</button>
+									<a class="btn btn-danger" th:href="@{/category/deleteCategory/{id}(id=${category.getId()})}">حذف</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</td>
+
+			</tr>
+		</tbody>
+	</table>
+
+		<!--pagination start-->
+		<nav aria-label="Page navigation example">
+			<ul class="pagination justify-content-center fixed-bottom mt-3 container-fluid">
+				<li class="page-item" th:classappend="${categorys.first} ? disabled">
+					<a class="page-link"
+					   th:href="@{/category/list(page=${categorys.number - 1})}" tabindex="-1">
+						Previous
+					</a>
+				</li>
+
+				<li class="page-item"
+					th:classappend="${categorys.number == i} ? active "
+					th:each="i : ${#numbers.sequence(0 , categorys.totalPages -1)}">
+					<a class="page-link" th:href="@{/category/list(page=${i})}">[[${i+1}]]</a>
+				</li>
+
+				<li class="page-item" th:classappend="${categorys.last} ? disabled">
+					<a class="page-link"
+					   th:href="@{/category/list(page=${categorys.number + 1})}">Next</a>
+				</li>
+			</ul>
+		</nav>
+		<!--pagination end-->
+
+</body>
+
+</html>
